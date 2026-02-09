@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comunidad Estudiantil</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .active-tab{background:#1d4ed8;color:white}
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
+  <!-- Header / Hero -->
+  <header class="bg-gradient-to-r from-blue-700 to-indigo-700 text-white shadow">
+    <div class="max-w-6xl mx-auto p-5 flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold">Comunidad Estudiantil</h1>
+        <p class="text-sm opacity-90">Plataforma oficial de participación y comunicación escolar</p>
+      </div>
+      <div class="text-xs sm:text-sm bg-white/20 px-3 py-2 rounded-lg">Personería Estudiantil</div>
+    </div>
+  </header>
+
+  <!-- Navegación -->
+  <nav class="bg-white border-b sticky top-0 z-10">
+    <div class="max-w-6xl mx-auto flex flex-wrap sm:flex-nowrap gap-2 p-2 text-xs sm:text-sm font-semibold overflow-x-auto">
+      <button class="tab px-3 py-2 rounded-md bg-slate-100 whitespace-nowrap" data-tab="horarios">Horarios</button>
+      <button class="tab px-3 py-2 rounded-md bg-slate-100 whitespace-nowrap" data-tab="votaciones">Votaciones</button>
+      <button class="tab px-3 py-2 rounded-md bg-slate-100 whitespace-nowrap" data-tab="propuestas">Propuestas</button>
+      <button class="tab px-3 py-2 rounded-md bg-slate-100 whitespace-nowrap" data-tab="radio">Radio</button>
+      <button class="tab px-3 py-2 rounded-md bg-slate-100 whitespace-nowrap" data-tab="noticias">Noticias</button>
+      <button class="tab px-3 py-2 rounded-md bg-slate-100 whitespace-nowrap" data-tab="representantes">Representantes</button>
+      <button class="tab px-3 py-2 rounded-md bg-slate-100 whitespace-nowrap" data-tab="calendario">Calendario</button>
+    </div>
+  </nav>
+
+  <main class="max-w-6xl mx-auto w-full p-3 sm:p-5 flex-1">
+
+    <!-- Horarios -->
+    <section id="horarios" class="tab-content">
+      <h2 class="text-xl font-bold mb-3">Horarios por Curso</h2>
+      <div class="bg-white p-4 rounded-2xl shadow space-y-4">
+        <div class="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+          <label class="font-semibold">Selecciona tu curso:</label>
+          <select id="courseSelect" class="border rounded-lg p-2">
+            <option value="10-1">10-1</option>
+            <option value="10-2">10-2</option>
+            <option value="11-1">11-1</option>
+          </select>
+        </div>
+        <div id="scheduleContainer" class="overflow-x-auto"></div>
+      </div>
+    </section>
+
+    <!-- Votaciones -->
+    <section id="votaciones" class="tab-content hidden">
+      <h2 class="text-xl font-bold mb-3">Votaciones Estudiantiles</h2>
+      <div class="bg-white p-4 rounded-2xl shadow">
+        <p class="mb-2 font-semibold">¿Qué actividad te gustaría para la semana cultural?</p>
+        <form id="voteForm" class="space-y-2">
+          <label class="block"><input type="radio" name="vote" value="Deportes" class="mr-2">Torneos deportivos</label>
+          <label class="block"><input type="radio" name="vote" value="Talentos" class="mr-2">Concurso de talentos</label>
+          <label class="block"><input type="radio" name="vote" value="Arte" class="mr-2">Feria de arte</label>
+          <button class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg mt-2">Votar</button>
+        </form>
+        <p id="voteMsg" class="mt-3 text-green-600 font-semibold"></p>
+      </div>
+    </section>
+
+    <!-- Propuestas -->
+    <section id="propuestas" class="tab-content hidden">
+      <h2 class="text-xl font-bold mb-3">Propuestas Estudiantiles</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="bg-white p-4 rounded-2xl shadow">
+          <h3 class="font-semibold mb-2">Enviar una propuesta</h3>
+          <form id="proposalForm" class="space-y-3">
+            <input type="text" id="studentName" placeholder="Tu nombre" class="w-full border p-2 rounded-lg" required>
+            <textarea id="studentProposal" placeholder="Escribe tu idea para mejorar el colegio..." class="w-full border p-2 rounded-lg" required></textarea>
+            <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">Publicar</button>
+          </form>
+          <p id="proposalMsg" class="mt-3 text-green-600 font-semibold"></p>
+        </div>
+
+        <div class="bg-white p-4 rounded-2xl shadow">
+          <h3 class="font-semibold mb-2">Ideas publicadas</h3>
+          <div id="proposalList" class="space-y-3 text-sm"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Radio -->
+    <section id="radio" class="tab-content hidden">
+      <h2 class="text-xl font-bold mb-3">Radio Estudiantil</h2>
+      <div class="bg-white p-4 rounded-2xl shadow space-y-3">
+        <p class="font-semibold">📻 Emisión semanal: Todos los viernes en el primer descanso.</p>
+        <audio controls class="w-full">
+          <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
+        <p class="text-sm text-gray-600">Espacio para anuncios, mensajes y participación estudiantil.</p>
+      </div>
+    </section>
+
+    <!-- Noticias -->
+    <section id="noticias" class="tab-content hidden">
+      <h2 class="text-xl font-bold mb-3">Avisos</h2>
+      <div class="space-y-3">
+        <div class="bg-white p-4 rounded-2xl shadow">
+          <p class="font-semibold">Semana cultural</p>
+          <p class="text-sm text-gray-600">Inscripciones abiertas hasta el miércoles.</p>
+        </div>
+        <div class="bg-white p-4 rounded-2xl shadow">
+          <p class="font-semibold">Entrega de boletines</p>
+          <p class="text-sm text-gray-600">Viernes en horario habitual.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Representantes -->
+    <section id="representantes" class="tab-content hidden">
+      <h2 class="text-xl font-bold mb-3">Representantes</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+        <div class="bg-white p-4 rounded-2xl shadow"><p class="font-semibold">10-1</p><p class="text-sm">Pendiente</p></div>
+        <div class="bg-white p-4 rounded-2xl shadow"><p class="font-semibold">10-2</p><p class="text-sm">Pendiente</p></div>
+        <div class="bg-white p-4 rounded-2xl shadow"><p class="font-semibold">11-1</p><p class="text-sm">Pendiente</p></div>
+      </div>
+    </section>
+
+    <!-- Calendario -->
+    <section id="calendario" class="tab-content hidden">
+      <h2 class="text-xl font-bold mb-3">Calendario Escolar</h2>
+      <div class="bg-white p-4 rounded-2xl shadow">
+        <ul class="list-disc pl-5 text-sm space-y-2">
+          <li>10 Feb: Reunión de padres</li>
+          <li>18 Feb: Actividad deportiva</li>
+          <li>25 Feb: Evaluación institucional</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-slate-900 text-white text-center text-xs p-3 mt-6">Plataforma creada para participación estudiantil</footer>
+
+<script>
+/* Tabs */
+const tabs=document.querySelectorAll('.tab');
+const contents=document.querySelectorAll('.tab-content');
+
+tabs.forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    contents.forEach(c=>c.classList.add('hidden'));
+    tabs.forEach(t=>t.classList.remove('active-tab'));
+    document.getElementById(tab.dataset.tab).classList.remove('hidden');
+    tab.classList.add('active-tab');
+  });
+});
+tabs[0].classList.add('active-tab');
+
+/* Horarios */
+const schedules={
+  '10-1':[
+    ['6:00 - 7:00','Matemáticas','Español','Inglés','Química','Sociales'],
+    ['7:00 - 8:00','Física','Biología','Matemáticas','Español','Ética'],
+    ['8:00 - 9:00','Informática','Inglés','Sociales','Artística','Educ. Física'],
+    ['9:00 - 10:00','Historia','Matemáticas','Biología','Inglés','Química'],
+    ['10:00 - 11:00','Español','Informática','Ética','Sociales','Proyecto']
+  ],
+  '10-2':[
+    ['6:00 - 7:00','Español','Matemáticas','Sociales','Inglés','Química'],
+    ['7:00 - 8:00','Biología','Física','Español','Matemáticas','Ética'],
+    ['8:00 - 9:00','Artística','Sociales','Inglés','Informática','Educ. Física'],
+    ['9:00 - 10:00','Matemáticas','Historia','Química','Biología','Inglés'],
+    ['10:00 - 11:00','Informática','Ética','Sociales','Proyecto','Español']
+  ],
+  '11-1':[
+    ['6:00 - 7:00','Química','Física','Matemáticas','Inglés','Sociales'],
+    ['7:00 - 8:00','Matemáticas','Biología','Español','Química','Ética'],
+    ['8:00 - 9:00','Informática','Inglés','Sociales','Artística','Educ. Física'],
+    ['9:00 - 10:00','Historia','Matemáticas','Biología','Inglés','Química'],
+    ['10:00 - 11:00','Español','Proyecto','Ética','Sociales','Informática']
+  ]
+};
+function renderSchedule(course){
+  const container=document.getElementById('scheduleContainer');
+  const rows=schedules[course].map(r=>`<tr class='border-t'>${r.map(c=>`<td class='p-2'>${c}</td>`).join('')}</tr>`).join('');
+  container.innerHTML=`<table class='w-full min-w-[640px] border text-xs sm:text-sm'><thead class='bg-slate-200'><tr><th class='p-2'>Hora</th><th class='p-2'>Lunes</th><th class='p-2'>Martes</th><th class='p-2'>Miércoles</th><th class='p-2'>Jueves</th><th class='p-2'>Viernes</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+const courseSelect=document.getElementById('courseSelect');
+renderSchedule(courseSelect.value);
+courseSelect.addEventListener('change',e=>renderSchedule(e.target.value));
+
+/* Votación */
+document.getElementById('voteForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const selected=document.querySelector('input[name="vote"]:checked');
+ if(selected){
+  localStorage.setItem('studentVote',selected.value);
+  document.getElementById('voteMsg').textContent='¡Tu voto fue registrado!';
+ }
+});
+
+/* Propuestas tipo foro */
+const list=document.getElementById('proposalList');
+function loadProposals(){
+ const data=JSON.parse(localStorage.getItem('proposals')||'[]');
+ list.innerHTML=data.map(p=>`<div class='border rounded-xl p-3'><p class='font-semibold'>${p.name}</p><p>${p.text}</p></div>`).join('');
+}
+loadProposals();
+
+document.getElementById('proposalForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const name=document.getElementById('studentName').value;
+ const text=document.getElementById('studentProposal').value;
+ const data=JSON.parse(localStorage.getItem('proposals')||'[]');
+ data.unshift({name,text});
+ localStorage.setItem('proposals',JSON.stringify(data));
+ e.target.reset();
+ document.getElementById('proposalMsg').textContent='Propuesta publicada correctamente';
+ loadProposals();
+});
+</script>
+</body>
+</html>
